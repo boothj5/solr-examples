@@ -1,0 +1,17 @@
+curl -G -v "http://localhost:8983/solr/myshop/select" \
+    --data-urlencode "q=*:*" \
+    --data-urlencode "group=true" \
+    --data-urlencode "group.limit=100" \
+    --data-urlencode "group.field=classification" \
+    --data-urlencode "group.field=designer" \
+    --data-urlencode "group.query=designer_search:(jeans OR raw OR tops)" \
+    --data-urlencode "group.query=category_tree_search:(jeans OR raw OR tops)" \
+    --data-urlencode "facet=true" \
+    --data-urlencode "facet.field=category_tree" \
+    --data-urlencode "facet.field=designer" \
+    --data-urlencode "facet.query=designer_search:(jeans OR raw OR tops)" \
+    --data-urlencode "facet.query=category_tree_search:(jeans OR raw OR tops)" \
+    --data-urlencode "facet.mincount=1" \
+    --data-urlencode "facet.pivot=classification,product_type,sub_type" \
+    --data-urlencode "wt=json" \
+    --data-urlencode "indent=true"

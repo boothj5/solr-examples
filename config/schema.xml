@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="myshop" version="1.5">
+    <fields>
+        <field name="_version_" type="long" indexed="true" stored="true"/>
+        <field name="id" type="text" indexed="true" stored="true"/>
+
+        <field name="name" type="text" indexed="true" stored="true"/>
+        <field name="name_search" type="text_search" indexed="true" stored="false" />
+
+        <field name="designer" type="text" indexed="true" stored="true"/>
+        <field name="designer_search" type="text_search" indexed="true" stored="false"/>
+
+        <field name="classification" type="text" indexed="true" stored="true"/>
+        <field name="classification_search" type="text_search" indexed="true" stored="false"/>
+
+        <field name="product_type" type="text" indexed="true" stored="true"/>
+        <field name="product_type_search" type="text_search" indexed="true" stored="false"/>
+
+        <field name="sub_type" type="text" indexed="true" stored="true"/>
+        <field name="sub_type_search" type="text_search" indexed="true" stored="false"/>
+
+        <field name="category_tree" type="text" indexed="true" stored="true"/>
+        <field name="category_tree_search" type="text_search" indexed="true" stored="false"/>
+    </fields>
+
+    <uniqueKey>id</uniqueKey>
+
+    <copyField source="name" dest="name_search"/>
+    <copyField source="designer" dest="designer_search"/>
+    <copyField source="category_tree" dest="category_tree_search"/>
+    <copyField source="classification" dest="classification_search"/>
+    <copyField source="product_type" dest="product_type_search"/>
+    <copyField source="sub_type" dest="sub_type_search"/>
+    
+    <types>
+        <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+
+        <fieldType name="text" class="solr.TextField"/>
+        
+        <fieldType name="text_search" class="solr.TextField">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>
+    </types>
+
+
+</schema>

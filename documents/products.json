@@ -1,0 +1,56 @@
+[
+	{
+		"id": "1",
+		"name": "Cool t-shirt",
+		"designer": "Gap",
+		"classification": "Clothing",
+		"product_type": "Tops",
+		"sub_type": "T-Shirt",
+		"category_tree": "Clothing Tops T-Shirt"
+	},
+	{
+		"id": "2",
+		"name": "Crazy Jeans",
+		"designer": "Gap",
+		"classification": "Clothing",
+		"product_type": "Jeans",
+		"sub_type": "Loose",
+		"category_tree": "Clothing Jeans Loose"
+	},
+	{
+		"id": "3",
+		"name": "Africa",
+		"designer": "Lynx",
+		"classification": "Toiletries",
+		"product_type": "Deoderant",
+		"sub_type": "Underarm",
+		"category_tree": "Toiletries Deoderant Underarm"
+	},
+	{
+		"id": "4",
+		"name": "Cool Skinny Things",
+		"designer": "Gap",
+		"classification": "Clothing",
+		"product_type": "Jeans",
+		"sub_type": "Skinny",
+		"category_tree": "Clothing Jeans Skinny"
+	},
+	{
+		"id": "5",
+		"name": "Classic Ones",
+		"designer": "GStar Raw",
+		"classification": "Clothing",
+		"product_type": "Jeans",
+		"sub_type": "Loose",
+		"category_tree": "Clothing Jeans Loose"
+	},
+	{
+		"id": "6",
+		"name": "Maiden Patch",
+		"designer": "Raw Metal",
+		"classification": "Clothing",
+		"product_type": "Jackets",
+		"sub_type": "Denim",
+		"category_tree": "Clothing Jackets Denim"
+	}
+]
