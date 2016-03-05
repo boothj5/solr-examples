@@ -3,54 +3,110 @@
 		"id": "1",
 		"name": "Cool t-shirt",
 		"designer": "Gap",
-		"classification": "Clothing",
+		"designer_id": "1",
+		"category": "Clothing",
 		"product_type": "Tops",
+		"product_type_tree": "Tops Clothing",
 		"sub_type": "T-Shirt",
-		"category_tree": "Clothing Tops T-Shirt"
+		"sub_type_tree": "T-Shirt Tops Clothing"
 	},
 	{
 		"id": "2",
 		"name": "Crazy Jeans",
 		"designer": "Gap",
-		"classification": "Clothing",
+		"designer_id": "1",
+		"category": "Clothing",
 		"product_type": "Jeans",
+		"product_type_tree": "Jeans Clothing",
 		"sub_type": "Loose",
-		"category_tree": "Clothing Jeans Loose"
+		"sub_type_tree": "Loose Jeans Clothing"
 	},
 	{
 		"id": "3",
 		"name": "Africa",
 		"designer": "Lynx",
-		"classification": "Toiletries",
+		"designer_id": "2",
+		"category": "Toiletries",
 		"product_type": "Deoderant",
+		"product_type_tree": "Deoderant Toiletries",
 		"sub_type": "Underarm",
-		"category_tree": "Toiletries Deoderant Underarm"
+		"sub_type_tree": "Underarm Deoderant Toiletries"
 	},
 	{
 		"id": "4",
 		"name": "Cool Skinny Things",
 		"designer": "Gap",
-		"classification": "Clothing",
+		"designer_id": "1",
+		"category": "Clothing",
 		"product_type": "Jeans",
+		"product_type_tree": "Jeans Clothing",
 		"sub_type": "Skinny",
-		"category_tree": "Clothing Jeans Skinny"
+		"sub_type_tree": "Skinny Jeans Clothing"
 	},
 	{
 		"id": "5",
 		"name": "Classic Ones",
 		"designer": "GStar Raw",
-		"classification": "Clothing",
+		"designer_id": "3",
+		"category": "Clothing",
 		"product_type": "Jeans",
+		"product_type_tree": "Jeans Clothing",
 		"sub_type": "Loose",
-		"category_tree": "Clothing Jeans Loose"
+		"sub_type_tree": "Loose Jeans Clothing"
 	},
 	{
 		"id": "6",
 		"name": "Maiden Patch",
 		"designer": "Raw Metal",
-		"classification": "Clothing",
+		"designer_id": "4",
+		"category": "Clothing",
 		"product_type": "Jackets",
+		"product_type_tree": "Jackets Clothing",
 		"sub_type": "Denim",
-		"category_tree": "Clothing Jackets Denim"
+		"sub_type_tree": "Denim Jackets Clothing"
+	},
+	{
+		"id": "7",
+		"name": "Retro Raw",
+		"designer": "Bob Stevens",
+		"designer_id": "5",
+		"category": "Clothing",
+		"product_type": "Belts",
+		"product_type_tree": "Belts Clothing",
+		"sub_type": "Leather",
+		"sub_type_tree": "Leather Belts Clothing"
+	},
+	{
+		"id": "8",
+		"name": "That shirt",
+		"designer": "Crazy Designer",
+		"designer_id": "6",
+		"category": "Clothing",
+		"product_type": "Shirts",
+		"product_type_tree": "Shirts Clothing",
+		"sub_type": "Cotton",
+		"sub_type_tree": "Cotton Shirts Clothing"
+	},
+	{
+		"id": "9",
+		"name": "Jeans Rock",
+		"designer": "Crazy Designer",
+		"designer_id": "6",
+		"category": "Clothing",
+		"product_type": "Tops",
+		"product_type_tree": "Tops Clothing",
+		"sub_type": "T-Shirt",
+		"sub_type_tree": "T-Shirt Shirts Clothing"
+	},
+	{
+		"id": "10",
+		"name": "Cool oldschool",
+		"designer": "Bob Stevens",
+		"designer_id": "5",
+		"category": "Clothing",
+		"product_type": "Belts",
+		"product_type_tree": "Belts Clothing",
+		"sub_type": "Leather",
+		"sub_type_tree": "Leather Belts Clothing"
 	}
 ]

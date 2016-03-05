@@ -9,28 +9,31 @@
 
         <field name="designer" type="text" indexed="true" stored="true"/>
         <field name="designer_search" type="text_search" indexed="true" stored="false"/>
+        <field name="designer_id" type="text" indexed="true" stored="true"/>
 
-        <field name="classification" type="text" indexed="true" stored="true"/>
-        <field name="classification_search" type="text_search" indexed="true" stored="false"/>
+        <field name="category" type="text" indexed="true" stored="true"/>
+        <field name="category_search" type="text_search" indexed="true" stored="false"/>
 
         <field name="product_type" type="text" indexed="true" stored="true"/>
         <field name="product_type_search" type="text_search" indexed="true" stored="false"/>
+        <field name="product_type_tree" type="text" indexed="true" stored="true"/>
+        <field name="product_type_tree_search" type="text_search" indexed="true" stored="false"/>
 
         <field name="sub_type" type="text" indexed="true" stored="true"/>
         <field name="sub_type_search" type="text_search" indexed="true" stored="false"/>
-
-        <field name="category_tree" type="text" indexed="true" stored="true"/>
-        <field name="category_tree_search" type="text_search" indexed="true" stored="false"/>
+        <field name="sub_type_tree" type="text" indexed="true" stored="true"/>
+        <field name="sub_type_tree_search" type="text_search" indexed="true" stored="false"/>
     </fields>
 
     <uniqueKey>id</uniqueKey>
 
     <copyField source="name" dest="name_search"/>
     <copyField source="designer" dest="designer_search"/>
-    <copyField source="category_tree" dest="category_tree_search"/>
-    <copyField source="classification" dest="classification_search"/>
+    <copyField source="category" dest="category_search"/>
     <copyField source="product_type" dest="product_type_search"/>
+    <copyField source="product_type_tree" dest="product_type_tree_search"/>
     <copyField source="sub_type" dest="sub_type_search"/>
+    <copyField source="sub_type_tree" dest="sub_type_tree_search"/>
     
     <types>
         <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
@@ -39,11 +42,13 @@
         
         <fieldType name="text_search" class="solr.TextField">
             <analyzer type="index">
-                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
                 <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
         </fieldType>
     </types>
-
-
 </schema>
