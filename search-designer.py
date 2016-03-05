@@ -22,9 +22,18 @@ query_param="&q=(" + query.replace(" ", "+") + ")" + "+AND+designer_id:" + desig
 
 path = base_url + query_param + params
 res = urllib2.urlopen(path).read()
+print res
 
 response = json.loads(res)
 numFound = response["response"]["numFound"]
+
+if numFound == 0:
+	print ""
+	print "No results found."
+	print ""
+	raise SystemExit
+
+designer_name = response["response"]["docs"][0]["designer"]
 
 pad = 0
 for document in response["response"]["docs"]:
@@ -33,7 +42,7 @@ for document in response["response"]["docs"]:
 		pad = len(main_str) + 1
 
 print ""
-print "Found " + str(numFound) + " results:"
+print str(numFound) + " results for \"" + query + "\" in " + designer_name + ":"
 for document in response["response"]["docs"]:
 	main_str = document["name"] + " by " + document["designer"] + " (" + document["sub_type"] + " " + document["product_type"] + ")"
 	print (

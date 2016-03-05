@@ -27,6 +27,14 @@ res = urllib2.urlopen(path).read()
 response = json.loads(res)
 numFound = response["response"]["numFound"]
 
+if numFound == 0:
+	print ""
+	print "No results found."
+	print ""
+	raise SystemExit
+
+sub_type_tree = response["response"]["docs"][0]["sub_type_tree"]
+
 pad = 0
 for document in response["response"]["docs"]:
 	main_str = document["name"] + " by " + document["designer"]
@@ -34,7 +42,7 @@ for document in response["response"]["docs"]:
 		pad = len(main_str) + 1
 
 print ""
-print "Found " + str(numFound) + " results:"
+print str(numFound) + " results for \"" + query + "\" in " + sub_type_tree + ":"
 for document in response["response"]["docs"]:
 	main_str = document["name"] + " by " + document["designer"]
 	print (
