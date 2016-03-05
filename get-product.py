@@ -20,7 +20,6 @@ query_params_enc = urllib.urlencode(query_params)
 
 path = base_url + "&" + query_params_enc
 res = urllib2.urlopen(path).read()
-# print res
 
 response = json.loads(res)
 

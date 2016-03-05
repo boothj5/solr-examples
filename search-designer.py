@@ -16,27 +16,27 @@ response = solr.search(query, "designer_id", designer_id)
 numFound = response["response"]["numFound"]
 
 if numFound == 0:
-	print ""
-	print "No results found."
-	print ""
-	raise SystemExit
+    print ""
+    print "No results found."
+    print ""
+    raise SystemExit
 
 designer_name = response["response"]["docs"][0]["designer"]
 
 pad = 0
 for document in response["response"]["docs"]:
-	main_str = document["name"] + " by " + document["designer"] + " (" + document["sub_type"] + " " + document["product_type"] + ")"
-	if len(main_str) + 1 > pad:
-		pad = len(main_str) + 1
+    main_str = document["name"] + " by " + document["designer"] + " (" + document["sub_type"] + " " + document["product_type"] + ")"
+    if len(main_str) + 1 > pad:
+        pad = len(main_str) + 1
 
 print ""
 print str(numFound) + " results for \"" + query + "\" in " + designer_name + ":"
 for document in response["response"]["docs"]:
-	main_str = document["name"] + " by " + document["designer"] + " (" + document["sub_type"] + " " + document["product_type"] + ")"
-	print (
-		"    " + main_str.ljust(pad) + 
-		": " + "./get-product.py " + str(document["id"])
-	)
+    main_str = document["name"] + " by " + document["designer"] + " (" + document["sub_type"] + " " + document["product_type"] + ")"
+    print (
+        "    " + main_str.ljust(pad) + 
+        ": " + "./get-product.py " + str(document["id"])
+    )
 print ""
 
 
