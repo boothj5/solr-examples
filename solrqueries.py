@@ -1,3 +1,4 @@
+import urllib
 import urllib2
 import json
 
@@ -38,3 +39,18 @@ def search(query, field, field_value):
 	response = json.loads(res)
 
 	return response
+
+def product_by_id(product_id):
+    host = "localhost"
+    port = 8983
+    core = "myshop"
+    base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true"
+    query_params = { "q" : "id:" + product_id }
+    query_params_enc = urllib.urlencode(query_params)
+
+    path = base_url + "&" + query_params_enc
+    res = urllib2.urlopen(path).read()
+    response = json.loads(res)
+    product = response["response"]["docs"][0]
+
+    return product
