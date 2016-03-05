@@ -3,27 +3,16 @@
 import sys
 import urllib2
 import json
-
-host = "localhost"
-port = 8983
-core = "myshop"
-base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true&defType=edismax"
-params = (
-    "&qf=name_search+designer_search+category_search+product_type_search+sub_type_search"
-)
+import solrqueries as solr
 
 if len(sys.argv) < 3:
-    print "You must specify a query"
+    print "You must specify a query and designer ID"
     raise SystemExit
 
-designer_id = sys.argv[1]
-query=sys.argv[2]
-query_param="&q=(" + query.replace(" ", "+") + ")" + "+AND+designer_id:" + designer_id
+query=sys.argv[1]
+designer_id = sys.argv[2]
 
-path = base_url + query_param + params
-res = urllib2.urlopen(path).read()
-
-response = json.loads(res)
+response = solr.search(query, "designer_id", designer_id)
 numFound = response["response"]["numFound"]
 
 if numFound == 0:
