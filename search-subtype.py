@@ -22,7 +22,6 @@ query_param="&q=(" + query.replace(" ", "+") + ")" + "+AND+sub_type_tree:" + "\"
 
 path = base_url + query_param + params
 res = urllib2.urlopen(path).read()
-# print res
 
 response = json.loads(res)
 numFound = response["response"]["numFound"]

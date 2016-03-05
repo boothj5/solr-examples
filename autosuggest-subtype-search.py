@@ -24,7 +24,6 @@ query_param="&q=" + query.replace(" ", "+")
 
 path = base_url + query_param + params
 res = urllib2.urlopen(path).read()
-# print res
 
 response = json.loads(res)
 groups = response["grouped"]["sub_type_tree"]["groups"]
