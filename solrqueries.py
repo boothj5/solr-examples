@@ -2,11 +2,12 @@ import urllib
 import urllib2
 import json
 
+host = "localhost"
+port = 8983
+core = "myshop"
+base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true&defType=edismax"
+
 def autosuggest(query, group_fields):
-	host = "localhost"
-	port = 8983
-	core = "myshop"
-	base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true&defType=edismax"
 	params = (
 	    "&qf=name_search+designer_search+category_search+product_type_search+sub_type_search"
 	    "&group=true"
@@ -23,16 +24,14 @@ def autosuggest(query, group_fields):
 
 	return response
 
-def search(query, field, field_value):
-	host = "localhost"
-	port = 8983
-	core = "myshop"
-	base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true&defType=edismax"
+def search(query, field=None, field_value=None):
 	params = (
 	    "&qf=name_search+designer_search+category_search+product_type_search+sub_type_search"
 	)
 
-	query_param="&q=(" + query.replace(" ", "+") + ")" + "+AND+" + field + ":" + "\"" + field_value.replace(" ", "+") + "\""
+	query_param = "&q=(" + query.replace(" ", "+") + ")"
+	if field and field_value:
+		query_param += "+AND+" + field + ":" + "\"" + field_value.replace(" ", "+") + "\""
 
 	path = base_url + query_param + params
 	res = urllib2.urlopen(path).read()
@@ -41,10 +40,6 @@ def search(query, field, field_value):
 	return response
 
 def product_by_id(product_id):
-    host = "localhost"
-    port = 8983
-    core = "myshop"
-    base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true"
     query_params = { "q" : "id:" + product_id }
     query_params_enc = urllib.urlencode(query_params)
 

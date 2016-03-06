@@ -7,12 +7,19 @@ import solrqueries as solr
 
 urls = (
     "/", "home",
-    "/autosuggest/search/designer/(.*)", "autosuggest_search_designer",
-    "/autosuggest/search/subtype/(.*)", "autosuggest_search_subtype",
+    "/autosuggest", "autosuggest",
     "/search/designer", "search_designer",
     "/search/subtype", "search_subtype",
     '/product/(.*)', 'get_product'
 )
+
+def parse_query_params():
+    params = {}
+    for param in web.ctx.query[1:].split("&"):
+        tokens = param.split("=")
+        params[tokens[0]] = tokens[1]
+
+    return params
 
 def solr_product_to_product(solr_product):
     return OrderedDict([
@@ -27,6 +34,13 @@ def solr_product_to_product(solr_product):
         ("sub_type_tree",       solr_product["sub_type_tree"])
     ])
 
+def solr_group_to_group(solr_group, identifier):
+    return OrderedDict([
+        ("name",        solr_group["groupValue"]),
+        ("identifier",  solr_group["doclist"]["docs"][0][identifier]),
+        ("count",       solr_group["doclist"]["numFound"])
+    ])
+
 def solr_search_result_to_result(solr_results):
     results = []
     for solr_product in solr_results:
@@ -34,17 +48,11 @@ def solr_search_result_to_result(solr_results):
 
     return results
 
-def solr_group_result_to_group_result(solr_group_result, group, identifier):
-    groups = solr_group_result["grouped"][group]["groups"]
+def solr_group_result_to_group_result(solr_groups, identifier):
     results = []
+    for solr_group in solr_groups:
+        results.append(solr_group_to_group(solr_group, identifier))
 
-    for group in groups:
-        result = OrderedDict([
-            ("name", group["groupValue"]),
-            ("identifier", group["doclist"]["docs"][0][identifier]),
-            ("count", group["doclist"]["numFound"])
-        ])
-        results.append(result)
     return results
 
 class home:
@@ -61,30 +69,30 @@ class get_product:
 
         return body + "\n"
 
-class autosuggest_search_designer:
-    def GET(self, query):
-        solr_group_result = solr.autosuggest(query, ["designer"])
-        group_result = solr_group_result_to_group_result(solr_group_result, "designer", "designer_id")
-        body = json.dumps(group_result, indent=4)
+class autosuggest:
+    def GET(self):
+        params = parse_query_params()
+        solr_group_result = solr.autosuggest(params["query"], ["designer", "sub_type_tree"])
 
-        return str(body) + "\n"
+        solr_designer_groups = solr_group_result["grouped"]["designer"]["groups"]
+        solr_subtype_groups = solr_group_result["grouped"]["sub_type_tree"]["groups"]
 
-class autosuggest_search_subtype:
-    def GET(self, query):
-        solr_group_result = solr.autosuggest(query, ["sub_type_tree"])
-        group_result = solr_group_result_to_group_result(solr_group_result, "sub_type_tree", "sub_type_tree")
+        designer_group_result = solr_group_result_to_group_result(solr_designer_groups, "designer_id")
+        subtype_group_result = solr_group_result_to_group_result(solr_subtype_groups, "sub_type_tree")
+
+        group_result = OrderedDict([
+            ("designer", designer_group_result),
+            ("subtype", subtype_group_result)
+        ])
+
         body = json.dumps(group_result, indent=4)
 
         return str(body) + "\n"
 
 class search_designer:
     def GET(self):
-        params = web.ctx.query[1:].split("&")
-        params_dict = {}
-        for param in params:
-            tokens = param.split("=")
-            params_dict[tokens[0]] = tokens[1]
-        solr_result = solr.search(params_dict["query"], "designer_id", params_dict["designer_id"])
+        params = parse_query_params()
+        solr_result = solr.search(params["query"], "designer_id", params["designer_id"])
         result = solr_search_result_to_result(solr_result["response"]["docs"])
         body = json.dumps(result, indent=4)
 
@@ -92,12 +100,8 @@ class search_designer:
 
 class search_subtype:
     def GET(self):
-        params = web.ctx.query[1:].split("&")
-        params_dict = {}
-        for param in params:
-            tokens = param.split("=")
-            params_dict[tokens[0]] = tokens[1]
-        solr_result = solr.search(params_dict["query"], "sub_type_tree", params_dict["sub_type_tree"])
+        params = parse_query_params()
+        solr_result = solr.search(params["query"], "sub_type_tree", params["sub_type_tree"])
         result = solr_search_result_to_result(solr_result["response"]["docs"])
         body = json.dumps(result, indent=4)
 

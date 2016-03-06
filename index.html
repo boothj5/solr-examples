@@ -29,31 +29,22 @@
                     $scope.autoSuggestSubTypes=null
 
                     if ($scope.searchQuery && $scope.searchQuery.length > 2){
-                        $http.get('http://localhost:8080/autosuggest/search/designer/' + $scope.searchQuery)
+                        $http.get('http://localhost:8080/autosuggest?query=' + $scope.searchQuery)
                             .then(function(response) {
-                                $scope.autoSuggestDesigners=response.data;
-                        });
-                        $http.get('http://localhost:8080/autosuggest/search/subtype/' + $scope.searchQuery)
-                            .then(function(response) {
-                                $scope.autoSuggestSubTypes=response.data;
+                                $scope.autoSuggestDesigners=response.data.designer;
+                                $scope.autoSuggestSubTypes=response.data.subtype;
                         });
                     }
                 }
 
                 $scope.designersearchlink = function(designer) {
-                    // if ($scope.dataSource === "NAP") {
-                    //     for (var i in $scope.designerSearchMenuResults) {
-                    //         menudesigner = $scope.designerSearchMenuResults[i]
-                    //         if (menudesigner.id === designer.id && menudesigner.count === designer.count) {
-                    //             url = "https://www.net-a-porter.com/Shop/Designers/" + menudesigner.page_url
-                    //             $window.open(url)
-                    //         }
-                    //     }
+                    url = "http://localhost:8080/search/designer?query=" + $scope.searchQuery + "&designer_id=" + designer.identifier
+                    $window.open(url)
+                }
 
-                    //     url = "https://www.net-a-porter.com/gb/en/Shop/Search?designerFilter=" + 
-                    //         designer.id + "&keywords=" + $scope.searchQuery +  "&termUsed=" + $scope.searchQuery + "&dScroll=NaN"
-                    //     $window.open(url)
-                    // }
+                $scope.subtypesearchlink = function(subtype) {
+                    url = "http://localhost:8080/search/subtype?query=" + $scope.searchQuery + "&sub_type_tree=" + subtype.identifier
+                    $window.open(url)
                 }
             }]);
         </script>
@@ -92,7 +83,7 @@
                     <div class="col-md-6">
                         <h3>Suggested sub type searches:</h3>
                         <ul ng-repeat="subtype in autoSuggestSubTypes">
-                            <a href="" ng-click="designersearchlink(designer)">
+                            <a href="" ng-click="subtypesearchlink(subtype)">
                                 {{searchQuery}} in <b>{{ subtype.name + " (" + subtype.count + ")" }} </b>
                             </a>
                         </ul>
