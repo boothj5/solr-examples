@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="solrExamples">
+    <head>
+        <title>Solr Examples</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        <style>
+            html, body, input, select, textarea
+            {
+                font-size: 1.05em;
+            }
+            a { color: inherit; } 
+        </style>
+        
+        <script src="http://code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
+        <script>
+            var solrExamples = angular.module('solrExamples', []);
+
+            solrExamples.controller('mainController', ['$scope', '$http', '$window', function($scope, $http, $window) {
+
+                $scope.searchQuery;
+                $scope.autoSuggestDesigners;
+                $scope.autoSuggestSubTypes;
+
+                $scope.autosuggest = function() {
+                    $scope.autoSuggestDesigners=null
+                    $scope.autoSuggestSubTypes=null
+
+                    if ($scope.searchQuery && $scope.searchQuery.length > 2){
+                        $http.get('http://localhost:8080/autosuggest/search/designer/' + $scope.searchQuery)
+                            .then(function(response) {
+                                $scope.autoSuggestDesigners=response.data;
+                        });
+                        $http.get('http://localhost:8080/autosuggest/search/subtype/' + $scope.searchQuery)
+                            .then(function(response) {
+                                $scope.autoSuggestSubTypes=response.data;
+                        });
+                    }
+                }
+
+                $scope.designersearchlink = function(designer) {
+                    // if ($scope.dataSource === "NAP") {
+                    //     for (var i in $scope.designerSearchMenuResults) {
+                    //         menudesigner = $scope.designerSearchMenuResults[i]
+                    //         if (menudesigner.id === designer.id && menudesigner.count === designer.count) {
+                    //             url = "https://www.net-a-porter.com/Shop/Designers/" + menudesigner.page_url
+                    //             $window.open(url)
+                    //         }
+                    //     }
+
+                    //     url = "https://www.net-a-porter.com/gb/en/Shop/Search?designerFilter=" + 
+                    //         designer.id + "&keywords=" + $scope.searchQuery +  "&termUsed=" + $scope.searchQuery + "&dScroll=NaN"
+                    //     $window.open(url)
+                    // }
+                }
+            }]);
+        </script>
+    </head>
+    <body>
+
+        <header>
+			<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Solr Examples</a>
+				</div>
+			</div>
+			</nav>
+		</header>
+
+        <div class="container">
+            <div ng-controller="mainController">
+                <div>
+                    <label>Search: </label>
+                    <input type="text" ng-change="autosuggest()" ng-model="searchQuery"/>
+                    <button ng-click="dosearch()" >Search</button>
+                </div>
+
+                <hr/>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Suggested designer searches:</h3>
+                        <ul ng-repeat="designer in autoSuggestDesigners">
+                            <a href="" ng-click="designersearchlink(designer)">
+                                {{searchQuery}} in <b>{{ designer.name + " (" + designer.count + ")" }} </b>
+                            </a>
+                        </ul>
+                    </div>  
+                    <div class="col-md-6">
+                        <h3>Suggested sub type searches:</h3>
+                        <ul ng-repeat="subtype in autoSuggestSubTypes">
+                            <a href="" ng-click="designersearchlink(designer)">
+                                {{searchQuery}} in <b>{{ subtype.name + " (" + subtype.count + ")" }} </b>
+                            </a>
+                        </ul>
+                    </div>  
+                </div>
+                <hr/>
+            </div>
+		</div>
+    </body>
+</html>

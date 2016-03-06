@@ -49,7 +49,9 @@ def solr_group_result_to_group_result(solr_group_result, group, identifier):
 
 class home:
     def GET(self):
-        return "Solr Examples"
+        with open('index.html', 'r') as myfile:
+            res = myfile.read().replace('\n', '')
+            return res
 
 class get_product:
     def GET(self, product_id):
