@@ -7,18 +7,31 @@ port = 8983
 core = "myshop"
 base_url = "http://" + host + ":" + str(port) + "/solr/" + core + "/select?wt=json&indent=true&defType=edismax"
 
-def autosuggest(query, group_fields):
-	params = (
-	    "&qf=name_search+designer_search+category_search+product_type_search+sub_type_search"
-	    "&group=true"
-	    "&group.limit=100"
-	)
-	for group_field in group_fields:
-		params += "&group.field=" + group_field
+def autosuggest(query, query_fields=None, group_fields=None):
+	params = ""
+
+	if query_fields:
+		params += "&qf="
+		field_strs = []
+		for k,v in query_fields.items():
+			field_strs.append(k + "^" + str(v))
+		params += "+".join(field_strs)
+
+	if group_fields:
+		params += (
+		    "&group=true"
+		    "&group.limit=100"
+		)
+
+	if group_fields:
+		for group_field in group_fields:
+			params += "&group.field=" + group_field
 
 	query_param="&q=" + query.replace(" ", "+")
 
 	path = base_url + query_param + params
+	print path
+
 	res = urllib2.urlopen(path).read()
 	response = json.loads(res)
 

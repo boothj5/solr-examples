@@ -8,6 +8,7 @@ import solrqueries as solr
 urls = (
     "/", "home",
     "/autosuggest", "autosuggest",
+    "/autosuggest/product", "autosuggest_product",
     "/search/designer", "search_designer",
     "/search/subtype", "search_subtype",
     '/product/(.*)', 'get_product'
@@ -55,6 +56,17 @@ def solr_group_result_to_group_result(solr_groups, identifier):
 
     return results
 
+def solr_product_results_to_product_results(solr_product_results):
+    count = solr_product_results["numFound"]
+    results = []
+    for solr_product in solr_product_results["docs"]:
+        results.append(solr_product_to_product(solr_product))
+
+    return OrderedDict([
+        ("count", count),
+        ("products", results)
+    ])
+
 class home:
     def GET(self):
         with open('index.html', 'r') as myfile:
@@ -72,7 +84,16 @@ class get_product:
 class autosuggest:
     def GET(self):
         params = parse_query_params()
-        solr_group_result = solr.autosuggest(params["query"], ["designer", "sub_type_tree"])
+
+        query_fields = {
+            "designer_search": 10,
+            "name_search": 5,
+            "sub_type_search": 3,
+            "product_type_search": 2,
+            "category_search": 1
+        }
+
+        solr_group_result = solr.autosuggest(params["query"], query_fields, ["designer", "sub_type_tree"])
 
         solr_designer_groups = solr_group_result["grouped"]["designer"]["groups"]
         solr_subtype_groups = solr_group_result["grouped"]["sub_type_tree"]["groups"]
@@ -86,6 +107,24 @@ class autosuggest:
         ])
 
         body = json.dumps(group_result, indent=4)
+
+        return str(body) + "\n"
+
+class autosuggest_product:
+    def GET(self):
+        params = parse_query_params()
+
+        query_fields = {
+            "name_search": 10,
+            "designer_search": 5,
+            "sub_type_search": 3,
+            "product_type_search": 2,
+            "category_search": 1
+        }
+
+        solr_product_results = solr.autosuggest(params["query"], query_fields, None)
+        product_results = solr_product_results_to_product_results(solr_product_results["response"])
+        body = json.dumps(product_results, indent=4)
 
         return str(body) + "\n"
 

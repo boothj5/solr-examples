@@ -23,16 +23,22 @@
                 $scope.searchQuery;
                 $scope.autoSuggestDesigners;
                 $scope.autoSuggestSubTypes;
+                $scope.autoSuggestProducts;
 
                 $scope.autosuggest = function() {
                     $scope.autoSuggestDesigners=null
                     $scope.autoSuggestSubTypes=null
+                    $scope.autoSuggestProducts=null
 
                     if ($scope.searchQuery && $scope.searchQuery.length > 2){
                         $http.get('http://localhost:8080/autosuggest?query=' + $scope.searchQuery)
                             .then(function(response) {
                                 $scope.autoSuggestDesigners=response.data.designer;
                                 $scope.autoSuggestSubTypes=response.data.subtype;
+                        });
+                        $http.get('http://localhost:8080/autosuggest/product?query=' + $scope.searchQuery)
+                            .then(function(response) {
+                                $scope.autoSuggestProducts=response.data;
                         });
                     }
                 }
@@ -44,6 +50,11 @@
 
                 $scope.subtypesearchlink = function(subtype) {
                     url = "http://localhost:8080/search/subtype?query=" + $scope.searchQuery + "&sub_type_tree=" + subtype.identifier
+                    $window.open(url)
+                }
+
+                $scope.productlink = function(productid) {
+                    url = "http://localhost:8080/product/" + productid
                     $window.open(url)
                 }
             }]);
@@ -73,7 +84,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>Suggested designer searches:</h3>
+                        <h3>Search in designer:</h3>
                         <ul ng-repeat="designer in autoSuggestDesigners">
                             <a href="" ng-click="designersearchlink(designer)">
                                 {{searchQuery}} in <b>{{ designer.name + " (" + designer.count + ")" }} </b>
@@ -81,10 +92,21 @@
                         </ul>
                     </div>  
                     <div class="col-md-6">
-                        <h3>Suggested sub type searches:</h3>
+                        <h3>Search in category:</h3>
                         <ul ng-repeat="subtype in autoSuggestSubTypes">
                             <a href="" ng-click="subtypesearchlink(subtype)">
                                 {{searchQuery}} in <b>{{ subtype.name + " (" + subtype.count + ")" }} </b>
+                            </a>
+                        </ul>
+                    </div>  
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Products ({{ autoSuggestProducts.count }}):</h3>
+                        <ul ng-repeat="product in autoSuggestProducts.products">
+                            <a href="" ng-click="productlink(product.id)">
+                                {{product.name}} by <b>{{ product.designer }}</b> in <b>{{ product.sub_type_tree }}</b>
                             </a>
                         </ul>
                     </div>  
