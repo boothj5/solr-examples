@@ -21,30 +21,36 @@
             solrExamples.controller('mainController', ['$scope', '$http', '$window', function($scope, $http, $window) {
 
                 $scope.searchQuery;
-                $scope.autoSuggestDesigners;
-                $scope.autoSuggestSubTypes;
+                $scope.autoSuggestSearchDesigners;
+                $scope.autoSuggestSearchSubTypes;
                 $scope.autoSuggestProducts;
+                $scope.autoSuggestDesigners;
 
                 $scope.autosuggest = function() {
-                    $scope.autoSuggestDesigners=null
-                    $scope.autoSuggestSubTypes=null
+                    $scope.autoSuggestSearchDesigners=null
+                    $scope.autoSuggestSearchSubTypes=null
                     $scope.autoSuggestProducts=null
+                    $scope.autoSuggestDesigners=null
 
                     if ($scope.searchQuery && $scope.searchQuery.length > 2){
                         $http.get('http://localhost:8080/autosuggest?query=' + $scope.searchQuery)
                             .then(function(response) {
-                                $scope.autoSuggestDesigners=response.data.designer;
-                                $scope.autoSuggestSubTypes=response.data.subtype;
+                                $scope.autoSuggestSearchDesigners=response.data.designer;
+                                $scope.autoSuggestSearchSubTypes=response.data.subtype;
                         });
                         $http.get('http://localhost:8080/autosuggest/product?query=' + $scope.searchQuery)
                             .then(function(response) {
                                 $scope.autoSuggestProducts=response.data;
                         });
+                        $http.get('http://localhost:8080/autosuggest/designer?query=' + $scope.searchQuery)
+                            .then(function(response) {
+                                $scope.autoSuggestDesigners=response.data;
+                        });
                     }
                 }
 
-                $scope.designersearchlink = function(designer) {
-                    url = "http://localhost:8080/search/designer?query=" + $scope.searchQuery + "&designer_id=" + designer.identifier
+                $scope.designersearchlink = function(designer_id) {
+                    url = "http://localhost:8080/search/designer?query=" + $scope.searchQuery + "&designer_id=" + designer_id
                     $window.open(url)
                 }
 
@@ -85,15 +91,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h3>Search in designer:</h3>
-                        <ul ng-repeat="designer in autoSuggestDesigners">
-                            <a href="" ng-click="designersearchlink(designer)">
+                        <ul ng-repeat="designer in autoSuggestSearchDesigners">
+                            <a href="" ng-click="designersearchlink(designer.identifier)">
                                 {{searchQuery}} in <b>{{ designer.name + " (" + designer.count + ")" }} </b>
                             </a>
                         </ul>
                     </div>  
                     <div class="col-md-6">
                         <h3>Search in category:</h3>
-                        <ul ng-repeat="subtype in autoSuggestSubTypes">
+                        <ul ng-repeat="subtype in autoSuggestSearchSubTypes">
                             <a href="" ng-click="subtypesearchlink(subtype)">
                                 {{searchQuery}} in <b>{{ subtype.name + " (" + subtype.count + ")" }} </b>
                             </a>
@@ -111,6 +117,18 @@
                         </ul>
                     </div>  
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Designers:</h3>
+                        <ul ng-repeat="designer in autoSuggestDesigners">
+                            <a href="" ng-click="designersearchlink(designer.id)">
+                                <b>{{ designer.name + " (" + designer.count + ")"}}</b>
+                            </a>
+                        </ul>
+                    </div>  
+                </div>
+
                 <hr/>
             </div>
 		</div>

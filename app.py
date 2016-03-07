@@ -9,6 +9,7 @@ urls = (
     "/", "home",
     "/autosuggest", "autosuggest",
     "/autosuggest/product", "autosuggest_product",
+    "/autosuggest/designer", "autosuggest_designer",
     "/search/designer", "search_designer",
     "/search/subtype", "search_subtype",
     '/product/(.*)', 'get_product'
@@ -33,6 +34,13 @@ def solr_product_to_product(solr_product):
         ("product_type_tree",   solr_product["product_type_tree"]),
         ("sub_type",            solr_product["sub_type"]),
         ("sub_type_tree",       solr_product["sub_type_tree"])
+    ])
+
+def solr_designer_to_designer(solr_designer):
+    return OrderedDict([
+        ("name",    solr_designer["groupValue"]),
+        ("id",      solr_designer["doclist"]["docs"][0]["designer_id"]),
+        ("count",   solr_designer["doclist"]["numFound"])
     ])
 
 def solr_group_to_group(solr_group, identifier):
@@ -67,6 +75,13 @@ def solr_product_results_to_product_results(solr_product_results):
         ("products", results)
     ])
 
+def solr_designer_results_to_designer_results(solr_designer_results):
+    results = []
+    for solr_designer in solr_designer_results:
+        results.append(solr_designer_to_designer(solr_designer))
+
+    return results
+
 class home:
     def GET(self):
         with open('index.html', 'r') as myfile:
@@ -93,7 +108,12 @@ class autosuggest:
             "category_search": 1
         }
 
-        solr_group_result = solr.autosuggest(params["query"], query_fields, ["designer", "sub_type_tree"])
+        solr_group_result = solr.autosuggest(
+            query = params["query"], 
+            query_fields = query_fields, 
+            group_fields = ["designer", "sub_type_tree"],
+            fields = None
+        )
 
         solr_designer_groups = solr_group_result["grouped"]["designer"]["groups"]
         solr_subtype_groups = solr_group_result["grouped"]["sub_type_tree"]["groups"]
@@ -115,16 +135,40 @@ class autosuggest_product:
         params = parse_query_params()
 
         query_fields = {
-            "name_search": 10,
-            "designer_search": 5,
-            "sub_type_search": 3,
-            "product_type_search": 2,
-            "category_search": 1
+            "name_search": 1
         }
 
-        solr_product_results = solr.autosuggest(params["query"], query_fields, None)
+        solr_product_results = solr.autosuggest(
+            query = params["query"], 
+            query_fields = query_fields, 
+            group_fields = None,
+            fields = None
+        )
+
         product_results = solr_product_results_to_product_results(solr_product_results["response"])
         body = json.dumps(product_results, indent=4)
+
+        print body
+
+        return str(body) + "\n"
+
+class autosuggest_designer:
+    def GET(self):
+        params = parse_query_params()
+
+        query_fields = {
+            "designer_search": 10
+        }
+
+        solr_designer_results = solr.autosuggest(
+            query = params["query"], 
+            query_fields = query_fields, 
+            group_fields = ["designer"],
+            fields = ["designer_id"]
+        )
+
+        designer_results = solr_designer_results_to_designer_results(solr_designer_results["grouped"]["designer"]["groups"])
+        body = json.dumps(designer_results, indent=4)
 
         return str(body) + "\n"
 

@@ -2,6 +2,7 @@
 <schema name="myshop" version="1.5">
     <fields>
         <field name="_version_" type="long" indexed="true" stored="true"/>
+
         <field name="id" type="text" indexed="true" stored="true"/>
 
         <field name="name" type="text" indexed="true" stored="true"/>
@@ -27,8 +28,8 @@
 
     <uniqueKey>id</uniqueKey>
 
-    <copyField source="name" dest="name_search"/>
     <copyField source="designer" dest="designer_search"/>
+    <copyField source="name" dest="name_search"/>
     <copyField source="category" dest="category_search"/>
     <copyField source="product_type" dest="product_type_search"/>
     <copyField source="product_type_tree" dest="product_type_tree_search"/>
@@ -44,7 +45,7 @@
             <analyzer type="index">
                 <tokenizer class="solr.WhitespaceTokenizerFactory"/>
                 <filter class="solr.LowerCaseFilterFactory"/>
-                <filter class="solr.EdgeNGramFilterFactory" minGramSize="1" maxGramSize="50"/>
+                <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="50"/>
             </analyzer>
             <analyzer type="query">
                 <tokenizer class="solr.WhitespaceTokenizerFactory"/>
