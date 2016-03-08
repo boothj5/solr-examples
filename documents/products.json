@@ -5,10 +5,10 @@
 		"designer": "Gap",
 		"designer_id": "1",
 		"category": "Clothing",
-		"product_type": "Tops",
-		"product_type_tree": "Tops Clothing",
-		"sub_type": "T-Shirt",
-		"sub_type_tree": "T-Shirt Tops Clothing"
+		"product_type": "T-Shirts",
+		"product_type_tree": "T-Shirts Clothing",
+		"sub_type": "Plain",
+		"sub_type_tree": "Plain T-Shirts Clothing"
 	},
 	{
 		"id": "2",
@@ -27,10 +27,10 @@
 		"designer": "Lynx",
 		"designer_id": "2",
 		"category": "Toiletries",
-		"product_type": "Deoderant",
-		"product_type_tree": "Deoderant Toiletries",
+		"product_type": "Deoderants",
+		"product_type_tree": "Deoderants Toiletries",
 		"sub_type": "Underarm",
-		"sub_type_tree": "Underarm Deoderant Toiletries"
+		"sub_type_tree": "Underarm Deoderants Toiletries"
 	},
 	{
 		"id": "4",
@@ -93,10 +93,10 @@
 		"designer": "Crazy Designer",
 		"designer_id": "6",
 		"category": "Clothing",
-		"product_type": "Tops",
-		"product_type_tree": "Tops Clothing",
-		"sub_type": "T-Shirt",
-		"sub_type_tree": "T-Shirt Shirts Clothing"
+		"product_type": "T-Shirts",
+		"product_type_tree": "T-Shirts Clothing",
+		"sub_type": "Printed",
+		"sub_type_tree": "Printed T-Shirts Clothing"
 	},
 	{
 		"id": "10",
@@ -108,5 +108,104 @@
 		"product_type_tree": "Belts Clothing",
 		"sub_type": "Leather",
 		"sub_type_tree": "Leather Belts Clothing"
+	},
+	{
+		"id": "11",
+		"name": "Camping cool",
+		"designer": "Northface",
+		"designer_id": "7",
+		"category": "Bags",
+		"product_type": "Rucksacks",
+		"product_type_tree": "Rucksacks Bags",
+		"sub_type": "Medium",
+		"sub_type_tree": "Medium Rucksacks Bags"
+	},
+	{
+		"id": "12",
+		"name": "Rock climbers classic",
+		"designer": "Northface",
+		"designer_id": "7",
+		"category": "Bags",
+		"product_type": "Rucksacks",
+		"product_type_tree": "Rucksacks Bags",
+		"sub_type": "Large",
+		"sub_type_tree": "Large Rucksacks Bags"
+	},
+	{
+		"id": "13",
+		"name": "Shelltoes Original",
+		"designer": "Addidas",
+		"designer_id": "8",
+		"category": "Shoes",
+		"product_type": "Trainers",
+		"product_type_tree": "Trainers Shoes",
+		"sub_type": "Casual",
+		"sub_type_tree": "Casual Trainers Shoes"
+	},
+	{
+		"id": "14",
+		"name": "Shelltoes Superstar",
+		"designer": "Addidas",
+		"designer_id": "8",
+		"category": "Shoes",
+		"product_type": "Trainers",
+		"product_type_tree": "Trainers Shoes",
+		"sub_type": "Casual",
+		"sub_type_tree": "Casual Trainers Shoes"
+	},
+	{
+		"id": "15",
+		"name": "Kick",
+		"designer": "Addidas",
+		"designer_id": "8",
+		"category": "Shoes",
+		"product_type": "Trainers",
+		"product_type_tree": "Trainers Shoes",
+		"sub_type": "Casual",
+		"sub_type_tree": "Casual Trainers Shoes"
+	},
+	{
+		"id": "16",
+		"name": "Airmax",
+		"designer": "Nike",
+		"designer_id": "9",
+		"category": "Shoes",
+		"product_type": "Trainers",
+		"product_type_tree": "Trainers Shoes",
+		"sub_type": "Casual",
+		"sub_type_tree": "Casual Trainers Shoes"
+	},
+	{
+		"id": "17",
+		"name": "Casual is Smart",
+		"designer": "Nike",
+		"designer_id": "9",
+		"category": "Hats",
+		"product_type": "Caps",
+		"product_type_tree": "Caps Hats",
+		"sub_type": "Sports",
+		"sub_type_tree": "Sports Caps Hats"
+	},
+	{
+		"id": "18",
+		"name": "Kung Fu",
+		"designer": "Wicked",
+		"designer_id": "10",
+		"category": "Clothing",
+		"product_type": "T-Shirts",
+		"product_type_tree": "T-Shirts Clothing",
+		"sub_type": "Printed",
+		"sub_type_tree": "Printed T-Shirts Clothing"
+	},
+	{
+		"id": "19",
+		"name": "Top Cat",
+		"designer": "Wicked",
+		"designer_id": "10",
+		"category": "Clothing",
+		"product_type": "T-Shirts",
+		"product_type_tree": "T-Shirts Clothing",
+		"sub_type": "Printed",
+		"sub_type_tree": "Printed T-Shirts Clothing"
 	}
 ]
